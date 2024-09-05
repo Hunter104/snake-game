@@ -4,12 +4,15 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "snake.h"
+#include "tilefuncs.h"
 
 typedef struct GameState {
   Snake *snake;
   Vector2 fruitPosition;
+  Vector2 lastDirection;
   float timeSinceLastMovement;
   bool gameOver;
+  bool snakeTurnLock;
 } GameState;
 
 void updateFruitLocation(GameState *game) {
@@ -34,8 +37,10 @@ void handleInput(GameState *game) {
     int KeyPressed = GetKeyPressed();
     while (KeyPressed != 0) {
       Vector2 direction = GetDirection(KeyPressed);
-      if (isValidDirection(game->snake, direction)) 
-        SetFacing(game->snake, direction);
+      if (isValidDirection(game->snake, direction))  {
+        game->lastDirection = direction;
+        break;
+      }
 
       KeyPressed = GetKeyPressed();
     } 
@@ -44,6 +49,7 @@ void handleInput(GameState *game) {
 void updateGame(GameState *game) {
     game->timeSinceLastMovement += GetFrameTime();
     if (game->timeSinceLastMovement >= tickDelay) {
+      SetFacing(game->snake, game->lastDirection);
       MoveSnake(game->snake);
       if (IsSnakeColliding(game->snake))
         game->gameOver = true;
@@ -71,6 +77,8 @@ GameState *initializeGame(void) {
     GameState *game = malloc(sizeof *game);
     game->timeSinceLastMovement = 0.0f;
     game->gameOver = false;
+    game->snakeTurnLock = false;
+    game->lastDirection = Vector2Zero();
 
     Vector2 middle = {(float) horizontal_tiles/2, (float) vertical_tiles/2};
     game->snake = CreateSnake(middle);
@@ -87,7 +95,6 @@ void endGame(GameState *game) {
   free(game);
 }
 
-// TODO: Add queue to direction changes
 int main(void)
 {
     GameState *game = initializeGame();
