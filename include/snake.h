@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include <raylib.h>
 #include <raymath.h>
-#include "constants.h"
-#include "tilefuncs.h"
-#include "snake.h"
+#define INITIAL_CAPACITY 20
 
 typedef struct Snake {
   size_t capacity;
