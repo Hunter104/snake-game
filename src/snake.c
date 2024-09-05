@@ -30,13 +30,13 @@ void freeSnake(Snake *snake) {
 }
 
 Vector2 GetDirection(int key) {
-  if (key == KEY_RIGHT)
+  if (key == KEY_RIGHT || key == KEY_D)
     return RightVector;
-  if (key == KEY_LEFT)
+  if (key == KEY_LEFT || key == KEY_A)
     return LeftVector;
-  if (key == KEY_UP)
+  if (key == KEY_UP || key == KEY_W)
     return UPVector;
-  if (key == KEY_DOWN)
+  if (key == KEY_DOWN || key == KEY_S)
     return DownVector;
 
   return Vector2Zero();
