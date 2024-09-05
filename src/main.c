@@ -2,57 +2,82 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <stdlib.h>
+#include <time.h>
 #include "constants.h"
 #include "snake.h"
 #include "tilefuncs.h"
+#include "main.h"
 
-typedef struct GameState {
-  Snake *snake;
-  Vector2 fruitPosition;
-  Vector2 lastDirection;
-  float timeSinceLastMovement;
-  bool gameOver;
-  bool snakeTurnLock;
-} GameState;
+GameState *initializeGame(void) {
+    GameState *game = malloc(sizeof *game);
+    game->timeSinceLastMovement = 0.0f;
+    game->gameOver = false;
+    game->snakeTurnLock = false;
+    game->lastDirection = Vector2Zero();
+
+    Vector2 middle = {(float) horizontal_tiles/2, (float) vertical_tiles/2};
+    game->snake = CreateSnake(middle);
+    InitWindow(screenWidth, screenHeight, "Snake Game");
+
+    updateFruitLocation(game);
+    SetTargetFPS(60);               
+
+    return game;
+}
+
+void endGame(GameState *game) {
+  freeSnake(game->snake);
+  free(game);
+}
 
 void updateFruitLocation(GameState *game) {
-  bool isInsideSnake = false;
-  Vector2 position = { 0 };
+  Vector2 position = Vector2Zero();
   do {
     position.x = GetRandomValue(0, horizontal_tiles-1);
-    position.y =  GetRandomValue(0, vertical_tiles-1);
-
-    for (int i=0; i<game->snake->len; i++) {
-      if (Vector2Equals(position, game->snake->segments[i]))   {
-        isInsideSnake = true;
-        break;
-      }
-    }
-  } while (isInsideSnake);
-
+    position.y = GetRandomValue(0, vertical_tiles-1);
+  } while (isInsideSnake(position, game->snake));
   game->fruitPosition = position;
+}
+
+bool isInsideSnake(Vector2 vector, Snake *snake) {
+  for (int i=0; i<snake->len; i++) {
+    if (Vector2Equals(vector, snake->segments[i]))   {
+      return true;
+    }
+  }
+  return false;
+}
+
+Vector2 GetDirection(int key) {
+  if (key == KEY_RIGHT || key == KEY_D)
+    return RightVector;
+  if (key == KEY_LEFT || key == KEY_A)
+    return LeftVector;
+  if (key == KEY_UP || key == KEY_W)
+    return UPVector;
+  if (key == KEY_DOWN || key == KEY_S)
+    return DownVector;
+
+  return Vector2Zero();
 }
 
 void handleInput(GameState *game) {
     int KeyPressed = GetKeyPressed();
     while (KeyPressed != 0) {
-      Vector2 direction = GetDirection(KeyPressed);
-      if (isValidDirection(game->snake, direction))  {
-        game->lastDirection = direction;
-        break;
-      }
-
+      game->lastDirection = GetDirection(KeyPressed); 
       KeyPressed = GetKeyPressed();
     } 
 }
 
 void updateGame(GameState *game) {
     game->timeSinceLastMovement += GetFrameTime();
+
     if (game->timeSinceLastMovement >= tickDelay) {
       SetFacing(game->snake, game->lastDirection);
       MoveSnake(game->snake);
       if (IsSnakeColliding(game->snake))
         game->gameOver = true;
+
       game->timeSinceLastMovement = 0;
     }
 
@@ -73,27 +98,6 @@ void render(GameState *game) {
     EndDrawing();
 }
 
-GameState *initializeGame(void) {
-    GameState *game = malloc(sizeof *game);
-    game->timeSinceLastMovement = 0.0f;
-    game->gameOver = false;
-    game->snakeTurnLock = false;
-    game->lastDirection = Vector2Zero();
-
-    Vector2 middle = {(float) horizontal_tiles/2, (float) vertical_tiles/2};
-    game->snake = CreateSnake(middle);
-    updateFruitLocation(game);
-
-    InitWindow(screenWidth, screenHeight, "Snake Game");
-    SetTargetFPS(60);               
-
-    return game;
-}
-
-void endGame(GameState *game) {
-  freeSnake(game->snake);
-  free(game);
-}
 
 int main(void)
 {

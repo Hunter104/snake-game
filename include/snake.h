@@ -15,8 +15,6 @@ typedef struct Snake {
 
 Snake *CreateSnake(Vector2 position); 
 void freeSnake(Snake *snake); 
-Vector2 GetDirection(int key); 
-bool isValidDirection(Snake *snake, Vector2 direction); 
 void SetFacing(Snake *snake, Vector2 direction); 
 void MoveSnake(Snake *snake); 
 bool IsSnakeColliding(Snake *snake); 

@@ -28,26 +28,6 @@ void freeSnake(Snake *snake) {
   free(snake);
 }
 
-Vector2 GetDirection(int key) {
-  if (key == KEY_RIGHT || key == KEY_D)
-    return RightVector;
-  if (key == KEY_LEFT || key == KEY_A)
-    return LeftVector;
-  if (key == KEY_UP || key == KEY_W)
-    return UPVector;
-  if (key == KEY_DOWN || key == KEY_S)
-    return DownVector;
-
-  return Vector2Zero();
-}
-
-bool isValidDirection(Snake *snake, Vector2 direction) {
-  bool noDirection = Vector2Equals(direction, Vector2Zero());
-  bool willStop = Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero());
-  
-  return !(noDirection || willStop);
-}
-
 void SetFacing(Snake *snake,  Vector2 direction) {
   bool noDirection = Vector2Equals(direction, Vector2Zero());
   bool willStop = Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero());
