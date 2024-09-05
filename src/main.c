@@ -34,7 +34,6 @@ int main(void)
     Vector2 fruitPosition = getNewFruit(snake);
 
     bool gameEnd = false;
-    Vector2 lastDirection = Vector2Zero();
     while (!gameEnd)   
     {
         if (WindowShouldClose()) gameEnd = true;
@@ -42,18 +41,14 @@ int main(void)
         int KeyPressed = GetKeyPressed();
         while (KeyPressed != 0) {
           Vector2 direction = GetDirection(KeyPressed);
-          if (isValidDirection(snake, direction)) {
-            lastDirection = direction; 
-          }
+          if (isValidDirection(snake, direction)) 
+            SetFacing(snake, direction);
+
           KeyPressed = GetKeyPressed();
         } 
 
         timeSinceLastMove += GetFrameTime();
         if (timeSinceLastMove >= tickDelay) {
-          if (!Vector2Equals(lastDirection, Vector2Zero())) {
-            SetFacing(snake,  lastDirection);
-            lastDirection = Vector2Zero();
-          }
           MoveSnake(snake);
           snake->directionLocked = false;
           if (IsSnakeColliding(snake))

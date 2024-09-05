@@ -66,13 +66,16 @@ void MoveSnake(Snake *snake) {
   for (int i=snake->len-1; i > 0; i--) 
     segments[i] = segments[i-1]; 
   segments[0] = Vector2Add(segments[0], snake->facing);
+
+  if (segments[0].x < 0) segments[0].x = horizontal_tiles-1;
+  if (segments[0].x >= horizontal_tiles) segments[0].x = 0;
+  if (segments[0].y < 0) segments[0].y = vertical_tiles-1;
+  if (segments[0].y >= vertical_tiles) segments[0].y = 0;
+
 }
 
 bool IsSnakeColliding(Snake *snake) {
   Vector2 snakePosition = snake->segments[0];
-  bool outOfBounds = (snakePosition.x < 0 || snakePosition.x > horizontal_tiles ||
-                      snakePosition.y < 0 || snakePosition.y > vertical_tiles);
-
   bool collision = false;
   for (int i=1; i < snake->len; i++) {
     if (Vector2Equals(snakePosition, snake->segments[i]))
@@ -82,7 +85,7 @@ bool IsSnakeColliding(Snake *snake) {
     } 
   }
 
-  return collision || outOfBounds;
+  return collision ;
 }
 
 void append(Snake *snake) {
