@@ -1,0 +1,94 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-Wall",
+      "-Wextra",
+      "-Wfloat-equal",
+      "-Wundef",
+      "-Wshadow",
+      "-Wpointer-arith",
+      "-Wcast-align",
+      "-Wstrict-prototypes",
+      "-Winit-self",
+      "-O2",
+      "-c",
+      "-o",
+      "out/constants.o",
+      "src/constants.c"
+    ],
+    "directory": "/home/hunter104/MyProjects/game",
+    "file": "/home/hunter104/MyProjects/game/src/constants.c",
+    "output": "/home/hunter104/MyProjects/game/out/constants.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-Wall",
+      "-Wextra",
+      "-Wfloat-equal",
+      "-Wundef",
+      "-Wshadow",
+      "-Wpointer-arith",
+      "-Wcast-align",
+      "-Wstrict-prototypes",
+      "-Winit-self",
+      "-O2",
+      "-c",
+      "-o",
+      "out/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/hunter104/MyProjects/game",
+    "file": "/home/hunter104/MyProjects/game/src/main.c",
+    "output": "/home/hunter104/MyProjects/game/out/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-Wall",
+      "-Wextra",
+      "-Wfloat-equal",
+      "-Wundef",
+      "-Wshadow",
+      "-Wpointer-arith",
+      "-Wcast-align",
+      "-Wstrict-prototypes",
+      "-Winit-self",
+      "-O2",
+      "-c",
+      "-o",
+      "out/snake.o",
+      "src/snake.c"
+    ],
+    "directory": "/home/hunter104/MyProjects/game",
+    "file": "/home/hunter104/MyProjects/game/src/snake.c",
+    "output": "/home/hunter104/MyProjects/game/out/snake.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-Wall",
+      "-Wextra",
+      "-Wfloat-equal",
+      "-Wundef",
+      "-Wshadow",
+      "-Wpointer-arith",
+      "-Wcast-align",
+      "-Wstrict-prototypes",
+      "-Winit-self",
+      "-O2",
+      "-c",
+      "-o",
+      "out/tilefuncs.o",
+      "src/tilefuncs.c"
+    ],
+    "directory": "/home/hunter104/MyProjects/game",
+    "file": "/home/hunter104/MyProjects/game/src/tilefuncs.c",
+    "output": "/home/hunter104/MyProjects/game/out/tilefuncs.o"
+  }
+]
