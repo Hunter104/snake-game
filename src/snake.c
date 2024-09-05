@@ -19,7 +19,6 @@ Snake *CreateSnake(Vector2 position) {
   snake->segments = segments;
   snake->facing = RightVector;
   snake->segments[0] = position;
-  snake->directionLocked = false;
 
   return snake;
 }
@@ -50,15 +49,12 @@ bool isValidDirection(Snake *snake, Vector2 direction) {
 }
 
 void SetFacing(Snake *snake,  Vector2 direction) {
-  if (snake->directionLocked)
-    return;
   bool noDirection = Vector2Equals(direction, Vector2Zero());
   bool willStop = Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero());
   if (noDirection || willStop)
     return;
 
   snake->facing = direction;
-  snake->directionLocked = true;
 }
 
 void MoveSnake(Snake *snake) {
