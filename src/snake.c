@@ -5,17 +5,14 @@
 #include "constants.h"
 #include "tilefuncs.h"
 #include "snake.h"
+#include "memory_utils.h"
 #define INITIAL_CAPACITY 20
 
 Snake *CreateSnake(Vector2 position) {
-  Snake *snake = malloc(sizeof *snake);
-  if (!snake)
-    abort();
+  Snake *snake = safe_malloc(sizeof *snake);
   snake->capacity = INITIAL_CAPACITY*sizeof(Vector2);
+  Vector2 *segments = safe_malloc(snake->capacity);
   snake->len = 1;
-  Vector2 *segments = malloc(snake->capacity);
-  if (!segments)
-    abort();
   snake->segments = segments;
   snake->facing = RightVector;
   snake->segments[0] = position;
@@ -67,7 +64,7 @@ bool IsSnakeColliding(Snake *snake) {
 void append(Snake *snake) {
   if (snake->len >= snake->capacity) {
     snake->capacity *= 2;
-    snake->segments = realloc(snake->segments, snake->capacity);
+    snake->segments = safe_realloc(snake->segments, snake->capacity);
     if (!snake->segments)
       abort();
   }

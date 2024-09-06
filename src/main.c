@@ -7,9 +7,10 @@
 #include "snake.h"
 #include "tilefuncs.h"
 #include "main.h"
+#include "memory_utils.h"
 
 GameState *initializeGame(void) {
-    GameState *game = malloc(sizeof *game);
+    GameState *game = safe_malloc(sizeof *game);
     game->timeSinceLastMovement = 0.0f;
     game->gameOver = false;
     game->snakeTurnLock = false;
