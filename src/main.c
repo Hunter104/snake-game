@@ -2,7 +2,6 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <stdlib.h>
-#include <time.h>
 #include "constants.h"
 #include "snake.h"
 #include "tilefuncs.h"
