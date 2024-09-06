@@ -61,6 +61,29 @@
       "-O2",
       "-c",
       "-o",
+      "out/memory_utils.o",
+      "src/memory_utils.c"
+    ],
+    "directory": "/home/hunter104/MyProjects/game",
+    "file": "/home/hunter104/MyProjects/game/src/memory_utils.c",
+    "output": "/home/hunter104/MyProjects/game/out/memory_utils.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Iinclude",
+      "-Wall",
+      "-Wextra",
+      "-Wfloat-equal",
+      "-Wundef",
+      "-Wshadow",
+      "-Wpointer-arith",
+      "-Wcast-align",
+      "-Wstrict-prototypes",
+      "-Winit-self",
+      "-O2",
+      "-c",
+      "-o",
       "out/snake.o",
       "src/snake.c"
     ],
