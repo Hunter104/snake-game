@@ -26,47 +26,41 @@ void FreeSnake(Snake *snake) {
 }
 
 void SetFacing(Snake *snake,  Vector2 direction) {
-  bool noDirection = Vector2Equals(direction, Vector2Zero());
-  bool willStop = Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero());
-  if (noDirection || willStop)
+  if (Vector2Equals(direction, Vector2Zero()) || 
+      Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero()))
     return;
 
   snake->facing = direction;
 }
 
+static Vector2 WrapPosition(Vector2 position) {
+  if (position.x < 0) position.x = horizontalTiles-1;
+  if (position.x >= horizontalTiles) position.x = 0;
+  if (position.y < 0) position.y = verticalTiles-1;
+  if (position.y >= verticalTiles) position.y = 0;
+
+  return position;
+}
+
 void MoveSnake(Snake *snake) {
-  Vector2 *segments = snake->segments;
   for (int i=snake->len-1; i > 0; i--) 
-    segments[i] = segments[i-1]; 
-  segments[0] = Vector2Add(segments[0], snake->facing);
+    snake->segments[i] = snake->segments[i-1]; 
 
-  if (segments[0].x < 0) segments[0].x = horizontalTiles-1;
-  if (segments[0].x >= horizontalTiles) segments[0].x = 0;
-  if (segments[0].y < 0) segments[0].y = verticalTiles-1;
-  if (segments[0].y >= verticalTiles) segments[0].y = 0;
-
+  snake->segments[0] = WrapPosition(Vector2Add(snake->segments[0], snake->facing));
 }
 
 bool IsSnakeColliding(Snake *snake) {
-  Vector2 snakePosition = snake->segments[0];
-  bool collision = false;
-  for (int i=1; i < snake->len; i++) {
-    if (Vector2Equals(snakePosition, snake->segments[i]))
-    {
-      collision = true;
-      break;
-    } 
-  }
+  for (int i=1; i < snake->len; i++)
+    if (Vector2Equals(snake->segments[0], snake->segments[i]))
+      return true;
 
-  return collision ;
+  return false;
 }
 
 void GrowSnake(Snake *snake) {
   if (snake->len >= snake->capacity) {
     snake->capacity *= 2;
     snake->segments = safeRealloc(snake->segments, snake->capacity*sizeof(Segment));
-    if (!snake->segments)
-      abort();
   }
   snake->segments[snake->len] = snake->segments[snake->len-1];
   snake->len++;
