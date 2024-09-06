@@ -9,15 +9,15 @@ typedef struct GameState {
   Vector2 fruitPosition;
   Vector2 lastDirection;
   float timeSinceLastMovement;
-  bool gameOver;
-  bool snakeTurnLock;
+  bool gameOverFlag;
+  bool snakeTurnLockFlag;
 } GameState;
 
 Vector2 GetDirection(int key);
-bool isInsideSnake(Vector2 vector, Snake *snake);
-void updateFruitLocation(GameState *game); 
-void handleInput(GameState *game); 
-void updateGame(GameState *game); 
-void render(GameState *game); 
-GameState *initializeGame(void); 
-void endGame(GameState *game); 
+bool IsInsideSnake(Vector2 vector, Snake *snake);
+void UpdateFruitLocation(GameState *game); 
+void HandleInput(GameState *game); 
+void UpdateGame(GameState *game); 
+void RenderGame(GameState *game); 
+GameState *InitializeGame(void); 
+void EndGame(GameState *game); 

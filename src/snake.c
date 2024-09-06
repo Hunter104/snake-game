@@ -9,8 +9,8 @@
 #define INITIAL_CAPACITY 20
 
 Snake *CreateSnake(Vector2 position) {
-  Snake *snake = safe_malloc(sizeof *snake);
-  Segment *segments = safe_malloc(INITIAL_CAPACITY*sizeof(Segment));
+  Snake *snake = safeMalloc(sizeof *snake);
+  Segment *segments = safeMalloc(INITIAL_CAPACITY*sizeof(Segment));
   snake->capacity = INITIAL_CAPACITY;
   snake->len = 1;
   snake->segments = segments;
@@ -20,7 +20,7 @@ Snake *CreateSnake(Vector2 position) {
   return snake;
 }
 
-void freeSnake(Snake *snake) {
+void FreeSnake(Snake *snake) {
   free(snake->segments);
   free(snake);
 }
@@ -40,10 +40,10 @@ void MoveSnake(Snake *snake) {
     segments[i] = segments[i-1]; 
   segments[0] = Vector2Add(segments[0], snake->facing);
 
-  if (segments[0].x < 0) segments[0].x = horizontal_tiles-1;
-  if (segments[0].x >= horizontal_tiles) segments[0].x = 0;
-  if (segments[0].y < 0) segments[0].y = vertical_tiles-1;
-  if (segments[0].y >= vertical_tiles) segments[0].y = 0;
+  if (segments[0].x < 0) segments[0].x = horizontalTiles-1;
+  if (segments[0].x >= horizontalTiles) segments[0].x = 0;
+  if (segments[0].y < 0) segments[0].y = verticalTiles-1;
+  if (segments[0].y >= verticalTiles) segments[0].y = 0;
 
 }
 
@@ -61,10 +61,10 @@ bool IsSnakeColliding(Snake *snake) {
   return collision ;
 }
 
-void append(Snake *snake) {
+void GrowSnake(Snake *snake) {
   if (snake->len >= snake->capacity) {
     snake->capacity *= 2;
-    snake->segments = safe_realloc(snake->segments, snake->capacity*sizeof(Segment));
+    snake->segments = safeRealloc(snake->segments, snake->capacity*sizeof(Segment));
     if (!snake->segments)
       abort();
   }
@@ -72,7 +72,7 @@ void append(Snake *snake) {
   snake->len++;
 }
 
-void DrawSnake(Snake *snake) {
+void RenderSnake(Snake *snake) {
   for (int i=0; i<snake->len; i++) {
     Vector2 coords = TiletoCartesian(snake->segments[i]);
     DrawRectangle(coords.x, coords.y, tileSize-tilePadding, tileSize-tilePadding, GREEN);
