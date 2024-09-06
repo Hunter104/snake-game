@@ -5,9 +5,11 @@
 #include <raymath.h>
 #define INITIAL_CAPACITY 20
 
+typedef Vector2 Segment;
+
 typedef struct Snake {
-  size_t capacity;
-  size_t len;
+  int capacity;
+  int len;
   Vector2 *segments;
   Vector2 facing;
   bool directionLocked;

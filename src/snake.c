@@ -10,8 +10,8 @@
 
 Snake *CreateSnake(Vector2 position) {
   Snake *snake = safe_malloc(sizeof *snake);
-  snake->capacity = INITIAL_CAPACITY*sizeof(Vector2);
-  Vector2 *segments = safe_malloc(snake->capacity);
+  Segment *segments = safe_malloc(INITIAL_CAPACITY*sizeof(Segment));
+  snake->capacity = INITIAL_CAPACITY;
   snake->len = 1;
   snake->segments = segments;
   snake->facing = RightVector;
@@ -64,7 +64,7 @@ bool IsSnakeColliding(Snake *snake) {
 void append(Snake *snake) {
   if (snake->len >= snake->capacity) {
     snake->capacity *= 2;
-    snake->segments = safe_realloc(snake->segments, snake->capacity);
+    snake->segments = safe_realloc(snake->segments, snake->capacity*sizeof(Segment));
     if (!snake->segments)
       abort();
   }
