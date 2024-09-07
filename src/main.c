@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "snake.h"
-#include "tilefuncs.h"
 #include "main.h"
 #include "memory_utils.h"
 #include "apple.h"
