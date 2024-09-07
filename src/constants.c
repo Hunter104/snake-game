@@ -11,9 +11,9 @@ const Vector2 LEFT_VECTOR = {-1.0f, 0.0f};
 const Vector2 RIGHT_VECTOR = {1.0f, 0.0f};
 
 const int TILE_PADDING = 5;
-const int TILE_SIZE = 20;
-const int HEIGHT_TILES = 40;
-const int WIDTH_TILES = 40;
+const int TILE_SIZE = 40;
+const int HEIGHT_TILES = 20;
+const int WIDTH_TILES = 20;
 
 const int WIDTH_CARTESIAN = WIDTH_TILES*TILE_SIZE;
 const int HEIGHT_CARTESIAN = HEIGHT_TILES*TILE_SIZE;
