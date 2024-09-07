@@ -13,14 +13,12 @@ typedef struct GameState {
   Directions lastDirection;
   float timeSinceLastMovement;
   bool gameOverFlag;
-  bool snakeTurnLockFlag;
 } GameState;
 
 GameState *InitializeGame(void) {
     GameState *game = safeMalloc(sizeof *game);
     game->timeSinceLastMovement = 0.0f;
     game->gameOverFlag = false;
-    game->snakeTurnLockFlag = false;
     game->lastDirection = UP;
 
     Vector2 middle = {(float) WIDTH_TILES/2, (float) HEIGHT_TILES/2};
