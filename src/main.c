@@ -19,7 +19,7 @@ GameState *InitializeGame(void) {
     game->snake = CreateSnake(middle);
     InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
 
-    game->apple = GetNewApple(game->snake->segments, game->snake->len);
+    game->apple = GetNewApple(game->snake);
     SetTargetFPS(FPS);               
 
     return game;
@@ -69,9 +69,9 @@ void UpdateGame(GameState *game) {
       game->timeSinceLastMovement = 0;
     }
 
-    if (Vector2Equals(game->snake->segments[0], game->apple)) {
+    if (Vector2Equals(game->snake->head->position, game->apple)) {
       GrowSnake(game->snake);
-      game->apple = GetNewApple(game->snake->segments, game->snake->len);
+      game->apple = GetNewApple(game->snake);
     }
 }
 

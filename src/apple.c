@@ -5,11 +5,12 @@
 #include "constants.h"
 #include "apple.h"
 #include "tilefuncs.h"
+#include "snake.h"
 
 
-static bool IsInsideTiles(Apple apple, Vector2 *tiles, int n) {
-  for (int i=0; i<n; i++) 
-    if (Vector2Equals(apple, tiles[i]))
+static bool IsInsideSnake(Apple apple, Segment *tail) {
+  for (Segment *current=tail; current != NULL; current=current->prev) 
+    if (Vector2Equals(apple, current->position))
       return true;
 
   return false;
@@ -18,12 +19,12 @@ static bool IsInsideTiles(Apple apple, Vector2 *tiles, int n) {
 /* Game must be initialized
  * Can theoretically run forever
 */
-Apple GetNewApple(Vector2 *noSpawnZones, int n) {
+Apple GetNewApple(Snake *snake) {
   Apple newApple = Vector2Zero();
   do {
     newApple.x = GetRandomValue(0, WIDTH_TILES-1);
     newApple.y = GetRandomValue(0, HEIGHT_TILES-1);
-  } while (IsInsideTiles(newApple, noSpawnZones, n));
+  } while (IsInsideSnake(newApple, snake->tail));
   return newApple;
 }
 

@@ -8,23 +8,35 @@
 #include "memory_utils.h"
 #define INITIAL_CAPACITY 20
 
+static Segment *CreateSegment(Vector2 position) {
+  Segment *segment = safeMalloc(sizeof *segment);
+  segment->position = position;
+  segment->next = NULL;
+  segment->prev = NULL;
+
+  return segment;
+}
+
 Snake *CreateSnake(Vector2 position) {
   Snake *snake = safeMalloc(sizeof *snake);
-  Segment *segments = safeMalloc(INITIAL_CAPACITY*sizeof(Segment));
-  snake->capacity = INITIAL_CAPACITY;
-  snake->len = 1;
-  snake->segments = segments;
-  snake->facing = RIGHT_VECTOR;
-  snake->segments[0] = position;
+  snake->head = CreateSegment(position);
+  snake->tail = snake->head;
+  snake->facing = UP_VECTOR;
 
   return snake;
 }
 
 void FreeSnake(Snake *snake) {
-  free(snake->segments);
+  Segment *current = snake->head;
+  while (current != NULL) {
+    Segment *tmp = current;
+    current = current->next;
+    free(tmp);
+  }
   free(snake);
 }
 
+// TODO: Create datatype for valid directions
 void SetFacing(Snake *snake,  Vector2 direction) {
   if (Vector2Equals(direction, Vector2Zero()) || 
       Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero()))
@@ -33,6 +45,7 @@ void SetFacing(Snake *snake,  Vector2 direction) {
   snake->facing = direction;
 }
 
+// TODO: Create function for checking if out of bounds
 static Vector2 WrapPosition(Vector2 position) {
   if (position.x < 0) position.x = WIDTH_TILES-1;
   if (position.x >= WIDTH_TILES) position.x = 0;
@@ -43,32 +56,31 @@ static Vector2 WrapPosition(Vector2 position) {
 }
 
 void MoveSnake(Snake *snake) {
-  for (int i=snake->len-1; i > 0; i--) 
-    snake->segments[i] = snake->segments[i-1]; 
+  for (Segment *current=snake->tail; current != snake->head; current=current->prev) 
+    current->position = current->prev->position; 
 
-  snake->segments[0] = WrapPosition(Vector2Add(snake->segments[0], snake->facing));
+  // Move snake forward forward
+  snake->head->position = WrapPosition(Vector2Add(snake->head->position, snake->facing));
 }
 
 bool IsSnakeSelfColliding(Snake *snake) {
-  for (int i=1; i < snake->len; i++)
-    if (Vector2Equals(snake->segments[0], snake->segments[i]))
+  for (Segment *current=snake->tail; current != snake->head; current=current->prev)
+    if (Vector2Equals(snake->head->position, current->position))
       return true;
 
   return false;
 }
 
 void GrowSnake(Snake *snake) {
-  if (snake->len >= snake->capacity) {
-    snake->capacity *= 2;
-    snake->segments = safeRealloc(snake->segments, snake->capacity*sizeof(Segment));
-  }
-  snake->segments[snake->len] = snake->segments[snake->len-1];
-  snake->len++;
+  Segment *newSegment = CreateSegment(snake->tail->position);
+  snake->tail->next = newSegment;
+  newSegment->prev = snake->tail;
+  snake->tail = newSegment;
 }
 
 void RenderSnake(Snake *snake) {
-  for (int i=0; i<snake->len; i++) {
-    Vector2 coords = TiletoCartesian(snake->segments[i]);
+  for (Segment *current=snake->tail; current != NULL; current=current->prev) {
+    Vector2 coords = TiletoCartesian(current->position);
     DrawRectangle(coords.x, coords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, GREEN);
   }
 }

@@ -4,14 +4,16 @@
 #include <raymath.h>
 #define INITIAL_CAPACITY 20
 
-typedef Vector2 Segment;
+typedef struct Segment {
+  Vector2 position;
+  struct Segment *next;
+  struct Segment *prev;
+} Segment;
 
 typedef struct Snake {
-  int capacity;
-  int len;
-  Vector2 *segments;
+  Segment *head;
+  Segment *tail;
   Vector2 facing;
-  bool directionLocked;
 } Snake;
 
 Snake *CreateSnake(Vector2 position); 
