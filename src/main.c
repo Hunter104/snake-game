@@ -8,6 +8,7 @@
 #include "apple.h"
 
 typedef struct GameState {
+  int points;
   Snake *snake;
   Apple apple;
   Directions lastDirection;
@@ -77,13 +78,25 @@ void UpdateGame(GameState *game) {
 
     if (Vector2Equals(game->snake->head->position, game->apple)) {
       GrowSnake(game->snake);
+      game->points++;
       game->apple = GetNewApple(game->snake);
     }
+}
+
+// TODO: Parametrize colors
+void RenderScoreboard(GameState *game) {
+  // HACK: fontSize must be constant
+  int fontSize = HEIGHT_CARTESIAN*0.7;
+  const char *text = TextFormat("%i", game->points);
+  float textWidth = MeasureText(text, fontSize);
+  DrawText(text, WIDTH_CARTESIAN*0.5-(textWidth/2) + 5, HEIGHT_CARTESIAN*0.5-(fontSize/2) + 5, fontSize, Fade(DARKGRAY, 0.5f)); // Shadow
+  DrawText(text, WIDTH_CARTESIAN*0.5-(textWidth/2), HEIGHT_CARTESIAN*0.5-(fontSize/2), fontSize, GRAY);  // Main text
 }
 
 void RenderGame(GameState *game) {
     BeginDrawing();
 
+    RenderScoreboard(game);
     RenderApple(game->apple);
     RenderSnake(game->snake);
 
