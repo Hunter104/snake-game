@@ -4,9 +4,17 @@
 #include <stdlib.h>
 #include "constants.h"
 #include "snake.h"
-#include "main.h"
 #include "memory_utils.h"
 #include "apple.h"
+
+typedef struct GameState {
+  Snake *snake;
+  Apple apple;
+  Directions lastDirection;
+  float timeSinceLastMovement;
+  bool gameOverFlag;
+  bool snakeTurnLockFlag;
+} GameState;
 
 GameState *InitializeGame(void) {
     GameState *game = safeMalloc(sizeof *game);
