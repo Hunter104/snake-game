@@ -79,7 +79,11 @@ void GrowSnake(Snake *snake) {
 void RenderSnake(Snake *snake) {
   for (Segment *current=snake->tail; current != NULL; current=current->prev) {
     Vector2 coords = TiletoCartesian(current->position);
-    DrawRectangle(coords.x, coords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, GREEN);
+    if (current == snake->head)
+      DrawRectangle(coords.x, coords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, GREEN);
+    else 
+      DrawRectangle(coords.x, coords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, DARKGREEN);
+
   }
 }
 
