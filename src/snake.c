@@ -49,7 +49,7 @@ void MoveSnake(Snake *snake) {
   snake->segments[0] = WrapPosition(Vector2Add(snake->segments[0], snake->facing));
 }
 
-bool IsSnakeColliding(Snake *snake) {
+bool IsSnakeSelfColliding(Snake *snake) {
   for (int i=1; i < snake->len; i++)
     if (Vector2Equals(snake->segments[0], snake->segments[i]))
       return true;
