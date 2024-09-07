@@ -1,5 +1,5 @@
 #pragma once
-#include <stdbool.h>
+#include "constants.h"
 #include <raylib.h>
 #include <raymath.h>
 #define INITIAL_CAPACITY 20
@@ -12,14 +12,14 @@ typedef struct Segment {
 typedef struct Snake {
   Segment *head;
   Segment *tail;
-  Vector2 facing;
+  Directions facing;
   bool directionLocked;
 } Snake;
 
 bool IsSnakeOutOfBounds(Snake *snake);
 Snake *CreateSnake(Vector2 position); 
 void FreeSnake(Snake *snake); 
-void SetFacing(Snake *snake, Vector2 direction); 
+void SetFacing(Snake *snake, Directions direction); 
 void MoveSnake(Snake *snake); 
 bool IsSnakeSelfColliding(Snake *snake); 
 void GrowSnake(Snake *snake); 

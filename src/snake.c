@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <raylib.h>
 #include <raymath.h>
@@ -20,7 +21,7 @@ Snake *CreateSnake(Vector2 position) {
   Snake *snake = safeMalloc(sizeof *snake);
   snake->head = CreateSegment(position);
   snake->tail = snake->head;
-  snake->facing = UP_VECTOR;
+  snake->facing = UP;
 
   return snake;
 }
@@ -36,10 +37,19 @@ void FreeSnake(Snake *snake) {
 }
 
 // TODO: Create datatype for valid directions
-void SetFacing(Snake *snake,  Vector2 direction) {
-  if (Vector2Equals(direction, Vector2Zero()) || 
-      Vector2Equals(Vector2Add(snake->facing, direction), Vector2Zero()))
+void SetFacing(Snake *snake,  Directions direction) {
+  if (
+    (snake->facing == UP && direction == DOWN) ||
+    (snake->facing == DOWN && direction == UP) ||
+    (snake->facing == LEFT && direction == RIGHT) ||
+    (snake->facing == RIGHT && direction == LEFT)
+  )
     return;
+
+  if (direction == INVALID) {
+    fprintf(stderr, "Error: invalid direction passed to snake.");
+    abort();
+  }
 
   snake->facing = direction;
 }
@@ -54,7 +64,7 @@ void MoveSnake(Snake *snake) {
   for (Segment *current=snake->tail; current != snake->head; current=current->prev) 
     current->position = current->prev->position; 
 
-  snake->head->position = Vector2Add(snake->head->position, snake->facing);
+  snake->head->position = Vector2Add(snake->head->position, DIRECTIONS_MAP[snake->facing]);
 }
 
 bool IsSnakeSelfColliding(Snake *snake) {

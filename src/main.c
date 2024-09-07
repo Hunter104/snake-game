@@ -13,7 +13,7 @@ GameState *InitializeGame(void) {
     game->timeSinceLastMovement = 0.0f;
     game->gameOverFlag = false;
     game->snakeTurnLockFlag = false;
-    game->lastDirection = Vector2Zero();
+    game->lastDirection = UP;
 
     Vector2 middle = {(float) WIDTH_TILES/2, (float) HEIGHT_TILES/2};
     game->snake = CreateSnake(middle);
@@ -30,30 +30,30 @@ void EndGame(GameState *game) {
   free(game);
 }
 
-Vector2 GetDirection(int key) {
+static Directions GetDirection(int key) {
   switch (key) {
     case KEY_RIGHT:
     case KEY_D:
-      return RIGHT_VECTOR;
+      return RIGHT;
     case KEY_LEFT:
     case KEY_A:
-      return LEFT_VECTOR;
+      return LEFT;
     case KEY_UP:
     case KEY_W:
-      return UP_VECTOR;
+      return UP;
     case KEY_DOWN:
     case KEY_S:
-      return DOWN_VECTOR;
+      return DOWN;
     default:
-      return Vector2Zero();
+      return INVALID;
   }
 }
 
 void HandleInput(GameState *game) {
     int KeyPressed = GetKeyPressed();
     if (KeyPressed == NO_KEY_PRESSED) return;
-    Vector2 direction = GetDirection(KeyPressed); 
-    if (Vector2Equals(direction, Vector2Zero())) return;
+    Directions direction = GetDirection(KeyPressed); 
+    if (direction == INVALID) return;
     game->lastDirection = direction;
 }
 

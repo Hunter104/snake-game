@@ -18,6 +18,7 @@ static bool IsInsideSnake(Apple apple, Segment *tail) {
 
 /* Game must be initialized
  * Can theoretically run forever
+ * Snake as parameter so apple doesn't spawn on top of it
 */
 Apple GetNewApple(Snake *snake) {
   Apple newApple = Vector2Zero();
