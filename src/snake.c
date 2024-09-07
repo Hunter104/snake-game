@@ -26,10 +26,10 @@ Snake *CreateSnake(Vector2 position) {
 }
 
 void FreeSnake(Snake *snake) {
-  Segment *current = snake->head;
+  Segment *current = snake->tail;
   while (current != NULL) {
     Segment *tmp = current;
-    current = current->next;
+    current = current->prev;
     free(tmp);
   }
   free(snake);
