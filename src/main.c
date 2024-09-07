@@ -63,10 +63,10 @@ Vector2 GetDirection(int key) {
 
 void HandleInput(GameState *game) {
     int KeyPressed = GetKeyPressed();
-    while (KeyPressed != NO_KEY_PRESSED) {
-      game->lastDirection = GetDirection(KeyPressed); 
-      KeyPressed = GetKeyPressed();
-    } 
+    if (KeyPressed == NO_KEY_PRESSED) return;
+    Vector2 direction = GetDirection(KeyPressed); 
+    if (Vector2Equals(direction, Vector2Zero())) return;
+    game->lastDirection = direction;
 }
 
 void UpdateGame(GameState *game) {
