@@ -13,7 +13,7 @@ const Vector2 DIRECTIONS_MAP[4] = {
 };
 
 
-const int TILE_PADDING = 5;
+const int TILE_PADDING = 0;
 const int TILE_SIZE = 40;
 const int HEIGHT_TILES = 20;
 const int WIDTH_TILES = 20;

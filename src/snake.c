@@ -56,8 +56,8 @@ void SetFacing(Snake *snake,  Directions direction) {
 
 bool IsSnakeOutOfBounds(Snake *snake) {
   Vector2 headPos = snake->head->position;
-  return  headPos.x < 0 || headPos.x > WIDTH_TILES ||
-          headPos.y < 0 || headPos.y > HEIGHT_TILES;
+  return  headPos.x < 0 || headPos.x >= WIDTH_TILES ||
+          headPos.y < 0 || headPos.y >= HEIGHT_TILES;
 }
 
 void MoveSnake(Snake *snake) {
