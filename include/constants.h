@@ -1,6 +1,8 @@
 #pragma once
 #include <raylib.h>
 
+extern const int NO_KEY_PRESSED;
+extern const int FPS;
 extern const Vector2 UP_VECTOR;
 extern const Vector2 DOWN_VECTOR;
 extern const Vector2 LEFT_VECTOR;

@@ -20,7 +20,7 @@ GameState *InitializeGame(void) {
     InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
 
     UpdateFruitLocation(game);
-    SetTargetFPS(60);               
+    SetTargetFPS(FPS);               
 
     return game;
 }
@@ -63,7 +63,7 @@ Vector2 GetDirection(int key) {
 
 void HandleInput(GameState *game) {
     int KeyPressed = GetKeyPressed();
-    while (KeyPressed != 0) {
+    while (KeyPressed != NO_KEY_PRESSED) {
       game->lastDirection = GetDirection(KeyPressed); 
       KeyPressed = GetKeyPressed();
     } 

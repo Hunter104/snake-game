@@ -2,6 +2,9 @@
 #include <raymath.h>
 #include "constants.h"
 
+const int FPS = 60;
+const int NO_KEY_PRESSED = 0;
+
 const Vector2 UP_VECTOR = {0.0f, -1.0f};
 const Vector2 DOWN_VECTOR = {0.0f, 1.0f};
 const Vector2 LEFT_VECTOR = {-1.0f, 0.0f};
