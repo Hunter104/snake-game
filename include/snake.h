@@ -14,6 +14,7 @@ typedef struct Snake {
   Segment *head;
   Segment *tail;
   Vector2 facing;
+  bool directionLocked;
 } Snake;
 
 Snake *CreateSnake(Vector2 position); 

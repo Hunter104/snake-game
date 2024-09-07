@@ -11,7 +11,6 @@
 static Segment *CreateSegment(Vector2 position) {
   Segment *segment = safeMalloc(sizeof *segment);
   segment->position = position;
-  segment->next = NULL;
   segment->prev = NULL;
 
   return segment;
@@ -73,7 +72,6 @@ bool IsSnakeSelfColliding(Snake *snake) {
 
 void GrowSnake(Snake *snake) {
   Segment *newSegment = CreateSegment(snake->tail->position);
-  snake->tail->next = newSegment;
   newSegment->prev = snake->tail;
   snake->tail = newSegment;
 }
