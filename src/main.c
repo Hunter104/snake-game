@@ -7,6 +7,7 @@
 #include "tilefuncs.h"
 #include "main.h"
 #include "memory_utils.h"
+#include "apple.h"
 
 GameState *InitializeGame(void) {
     GameState *game = safeMalloc(sizeof *game);
@@ -19,7 +20,7 @@ GameState *InitializeGame(void) {
     game->snake = CreateSnake(middle);
     InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
 
-    UpdateFruitLocation(game);
+    game->apple = GetNewApple(game->snake->segments, game->snake->len);
     SetTargetFPS(FPS);               
 
     return game;
@@ -28,23 +29,6 @@ GameState *InitializeGame(void) {
 void EndGame(GameState *game) {
   FreeSnake(game->snake);
   free(game);
-}
-
-void UpdateFruitLocation(GameState *game) {
-  Vector2 position = Vector2Zero();
-  do {
-    position.x = GetRandomValue(0, WIDTH_TILES-1);
-    position.y = GetRandomValue(0, HEIGHT_TILES-1);
-  } while (IsInsideSnake(position, game->snake));
-  game->fruitPosition = position;
-}
-
-bool IsInsideSnake(Vector2 vector, Snake *snake) {
-  for (int i=0; i<snake->len; i++) 
-    if (Vector2Equals(vector, snake->segments[i]))   
-      return true;
-
-  return false;
 }
 
 Vector2 GetDirection(int key) {
@@ -86,17 +70,16 @@ void UpdateGame(GameState *game) {
       game->timeSinceLastMovement = 0;
     }
 
-    if (Vector2Equals(game->snake->segments[0], game->fruitPosition)) {
+    if (Vector2Equals(game->snake->segments[0], game->apple)) {
       GrowSnake(game->snake);
-      UpdateFruitLocation(game);
+      game->apple = GetNewApple(game->snake->segments, game->snake->len);
     }
 }
 
 void RenderGame(GameState *game) {
     BeginDrawing();
 
-    Vector2 fruitCoords = TiletoCartesian(game->fruitPosition);
-    DrawRectangle(fruitCoords.x, fruitCoords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, RED);
+    RenderApple(game->apple);
     RenderSnake(game->snake);
 
     ClearBackground(BLACK);
