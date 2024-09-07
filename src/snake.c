@@ -44,22 +44,17 @@ void SetFacing(Snake *snake,  Vector2 direction) {
   snake->facing = direction;
 }
 
-// TODO: Create function for checking if out of bounds
-static Vector2 WrapPosition(Vector2 position) {
-  if (position.x < 0) position.x = WIDTH_TILES-1;
-  if (position.x >= WIDTH_TILES) position.x = 0;
-  if (position.y < 0) position.y = HEIGHT_TILES-1;
-  if (position.y >= HEIGHT_TILES) position.y = 0;
-
-  return position;
+bool IsSnakeOutOfBounds(Snake *snake) {
+  Vector2 headPos = snake->head->position;
+  return  headPos.x < 0 || headPos.x > WIDTH_TILES ||
+          headPos.y < 0 || headPos.y > HEIGHT_TILES;
 }
 
 void MoveSnake(Snake *snake) {
   for (Segment *current=snake->tail; current != snake->head; current=current->prev) 
     current->position = current->prev->position; 
 
-  // Move snake forward forward
-  snake->head->position = WrapPosition(Vector2Add(snake->head->position, snake->facing));
+  snake->head->position = Vector2Add(snake->head->position, snake->facing);
 }
 
 bool IsSnakeSelfColliding(Snake *snake) {

@@ -63,7 +63,7 @@ void UpdateGame(GameState *game) {
     if (game->timeSinceLastMovement >= TICK_DELAY) {
       SetFacing(game->snake, game->lastDirection);
       MoveSnake(game->snake);
-      if (IsSnakeSelfColliding(game->snake))
+      if (IsSnakeSelfColliding(game->snake) || IsSnakeOutOfBounds(game->snake))
         game->gameOverFlag = true;
 
       game->timeSinceLastMovement = 0;
