@@ -40,25 +40,30 @@ void UpdateFruitLocation(GameState *game) {
 }
 
 bool IsInsideSnake(Vector2 vector, Snake *snake) {
-  for (int i=0; i<snake->len; i++) {
-    if (Vector2Equals(vector, snake->segments[i]))   {
+  for (int i=0; i<snake->len; i++) 
+    if (Vector2Equals(vector, snake->segments[i]))   
       return true;
-    }
-  }
+
   return false;
 }
 
 Vector2 GetDirection(int key) {
-  if (key == KEY_RIGHT || key == KEY_D)
-    return RIGHT_VECTOR;
-  if (key == KEY_LEFT || key == KEY_A)
-    return LEFT_VECTOR;
-  if (key == KEY_UP || key == KEY_W)
-    return UP_VECTOR;
-  if (key == KEY_DOWN || key == KEY_S)
-    return DOWN_VECTOR;
-
-  return Vector2Zero();
+  switch (key) {
+    case KEY_RIGHT:
+    case KEY_D:
+      return RIGHT_VECTOR;
+    case KEY_LEFT:
+    case KEY_A:
+      return LEFT_VECTOR;
+    case KEY_UP:
+    case KEY_W:
+      return UP_VECTOR;
+    case KEY_DOWN:
+    case KEY_S:
+      return DOWN_VECTOR;
+    default:
+      return Vector2Zero();
+  }
 }
 
 void HandleInput(GameState *game) {
