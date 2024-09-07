@@ -2,14 +2,17 @@
 #include <raymath.h>
 #include "constants.h"
 
-const Vector2 UpVector = {(float) 0, (float)-1};
-const Vector2 DownVector = {(float) 0, (float)1};
-const Vector2 LeftVector = {(float) -1, (float)0};
-const Vector2 RightVector = {(float) 1, (float)0};
-const int tileSize = 20;
-const int verticalTiles = 40;
-const int horizontalTiles = 40;
-const int screenWidth = horizontalTiles*tileSize;
-const int screenHeight = verticalTiles*tileSize;
-const float tickDelay = 0.1f;
-const int tilePadding = 5;
+const Vector2 UP_VECTOR = {0.0f, -1.0f};
+const Vector2 DOWN_VECTOR = {0.0f, 1.0f};
+const Vector2 LEFT_VECTOR = {-1.0f, 0.0f};
+const Vector2 RIGHT_VECTOR = {1.0f, 0.0f};
+
+const int TILE_PADDING = 5;
+const int TILE_SIZE = 20;
+const int HEIGHT_TILES = 40;
+const int WIDTH_TILES = 40;
+
+const int WIDTH_CARTESIAN = WIDTH_TILES*TILE_SIZE;
+const int HEIGHT_CARTESIAN = HEIGHT_TILES*TILE_SIZE;
+
+const float TICK_DELAY = 0.1f;

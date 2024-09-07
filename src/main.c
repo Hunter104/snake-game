@@ -15,9 +15,9 @@ GameState *InitializeGame(void) {
     game->snakeTurnLockFlag = false;
     game->lastDirection = Vector2Zero();
 
-    Vector2 middle = {(float) horizontalTiles/2, (float) verticalTiles/2};
+    Vector2 middle = {(float) WIDTH_TILES/2, (float) HEIGHT_TILES/2};
     game->snake = CreateSnake(middle);
-    InitWindow(screenWidth, screenHeight, "Snake Game");
+    InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
 
     UpdateFruitLocation(game);
     SetTargetFPS(60);               
@@ -33,8 +33,8 @@ void EndGame(GameState *game) {
 void UpdateFruitLocation(GameState *game) {
   Vector2 position = Vector2Zero();
   do {
-    position.x = GetRandomValue(0, horizontalTiles-1);
-    position.y = GetRandomValue(0, verticalTiles-1);
+    position.x = GetRandomValue(0, WIDTH_TILES-1);
+    position.y = GetRandomValue(0, HEIGHT_TILES-1);
   } while (IsInsideSnake(position, game->snake));
   game->fruitPosition = position;
 }
@@ -50,13 +50,13 @@ bool IsInsideSnake(Vector2 vector, Snake *snake) {
 
 Vector2 GetDirection(int key) {
   if (key == KEY_RIGHT || key == KEY_D)
-    return RightVector;
+    return RIGHT_VECTOR;
   if (key == KEY_LEFT || key == KEY_A)
-    return LeftVector;
+    return LEFT_VECTOR;
   if (key == KEY_UP || key == KEY_W)
-    return UpVector;
+    return UP_VECTOR;
   if (key == KEY_DOWN || key == KEY_S)
-    return DownVector;
+    return DOWN_VECTOR;
 
   return Vector2Zero();
 }
@@ -72,7 +72,7 @@ void HandleInput(GameState *game) {
 void UpdateGame(GameState *game) {
     game->timeSinceLastMovement += GetFrameTime();
 
-    if (game->timeSinceLastMovement >= tickDelay) {
+    if (game->timeSinceLastMovement >= TICK_DELAY) {
       SetFacing(game->snake, game->lastDirection);
       MoveSnake(game->snake);
       if (IsSnakeColliding(game->snake))
@@ -91,7 +91,7 @@ void RenderGame(GameState *game) {
     BeginDrawing();
 
     Vector2 fruitCoords = TiletoCartesian(game->fruitPosition);
-    DrawRectangle(fruitCoords.x, fruitCoords.y, tileSize-tilePadding, tileSize-tilePadding, RED);
+    DrawRectangle(fruitCoords.x, fruitCoords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, RED);
     RenderSnake(game->snake);
 
     ClearBackground(BLACK);

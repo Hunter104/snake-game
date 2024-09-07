@@ -14,7 +14,7 @@ Snake *CreateSnake(Vector2 position) {
   snake->capacity = INITIAL_CAPACITY;
   snake->len = 1;
   snake->segments = segments;
-  snake->facing = RightVector;
+  snake->facing = RIGHT_VECTOR;
   snake->segments[0] = position;
 
   return snake;
@@ -34,10 +34,10 @@ void SetFacing(Snake *snake,  Vector2 direction) {
 }
 
 static Vector2 WrapPosition(Vector2 position) {
-  if (position.x < 0) position.x = horizontalTiles-1;
-  if (position.x >= horizontalTiles) position.x = 0;
-  if (position.y < 0) position.y = verticalTiles-1;
-  if (position.y >= verticalTiles) position.y = 0;
+  if (position.x < 0) position.x = WIDTH_TILES-1;
+  if (position.x >= WIDTH_TILES) position.x = 0;
+  if (position.y < 0) position.y = HEIGHT_TILES-1;
+  if (position.y >= HEIGHT_TILES) position.y = 0;
 
   return position;
 }
@@ -69,7 +69,7 @@ void GrowSnake(Snake *snake) {
 void RenderSnake(Snake *snake) {
   for (int i=0; i<snake->len; i++) {
     Vector2 coords = TiletoCartesian(snake->segments[i]);
-    DrawRectangle(coords.x, coords.y, tileSize-tilePadding, tileSize-tilePadding, GREEN);
+    DrawRectangle(coords.x, coords.y, TILE_SIZE-TILE_PADDING, TILE_SIZE-TILE_PADDING, GREEN);
   }
 }
 
