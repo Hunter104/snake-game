@@ -17,10 +17,10 @@ typedef struct Snake {
 } Snake;
 
 bool IsSnakeOutOfBounds(Snake *snake);
-Snake *CreateSnake(Vector2 position); 
-void FreeSnake(Snake *snake); 
-void SetFacing(Snake *snake, Directions direction); 
-void MoveSnake(Snake *snake); 
-bool IsSnakeSelfColliding(Snake *snake); 
-void GrowSnake(Snake *snake); 
-void RenderSnake(Snake *snake); 
+Snake *CreateSnake(Vector2 position);
+void FreeSnake(Snake *snake);
+void SetFacing(Snake *snake, Directions direction);
+void MoveSnake(Snake *snake);
+bool IsSnakeSelfColliding(Snake *snake);
+void GrowSnake(Snake *snake);
+void RenderSnake(Snake *snake);
