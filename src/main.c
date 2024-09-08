@@ -7,17 +7,20 @@
 #include "memory_utils.h"
 #include "apple.h"
 
-typedef struct GameState {
+typedef struct GameData {
   int points;
   Snake *snake;
   Apple apple;
   Directions lastDirection;
   float timeSinceLastMovement;
   bool gameOverFlag;
-} GameState;
 
-GameState *InitializeGame(void) {
-    GameState *game = safeMalloc(sizeof *game);
+  Sound fxPickUp;
+  Sound fxGameOver;
+} GameData;
+
+GameData *InitializeGame(void) {
+    GameData *game = safeMalloc(sizeof *game);
     game->timeSinceLastMovement = 0.0f;
     game->gameOverFlag = false;
     game->lastDirection = UP;
@@ -25,14 +28,16 @@ GameState *InitializeGame(void) {
     Vector2 middle = {(float) WIDTH_TILES/2, (float) HEIGHT_TILES/2};
     game->snake = CreateSnake(middle);
     InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
-
+    InitAudioDevice();
     game->apple = GetNewApple(game->snake);
     SetTargetFPS(FPS);               
+    game->fxPickUp = LoadSound("assets/pick-up.ogg");
+    game->fxGameOver = LoadSound("assets/game-over.ogg");
 
     return game;
 }
 
-void EndGame(GameState *game) {
+void EndGame(GameData *game) {
   FreeSnake(game->snake);
   free(game);
 }
@@ -56,7 +61,7 @@ static Directions GetDirection(int key) {
   }
 }
 
-void HandleInput(GameState *game) {
+void HandleInput(GameData *game) {
     int KeyPressed = GetKeyPressed();
     if (KeyPressed == NO_KEY_PRESSED) return;
     Directions direction = GetDirection(KeyPressed); 
@@ -64,19 +69,22 @@ void HandleInput(GameState *game) {
     game->lastDirection = direction;
 }
 
-void UpdateGame(GameState *game) {
+void UpdateGame(GameData *game) {
     game->timeSinceLastMovement += GetFrameTime();
 
     if (game->timeSinceLastMovement >= TICK_DELAY) {
       SetFacing(game->snake, game->lastDirection);
       MoveSnake(game->snake);
-      if (IsSnakeSelfColliding(game->snake) || IsSnakeOutOfBounds(game->snake))
+      if (IsSnakeSelfColliding(game->snake) || IsSnakeOutOfBounds(game->snake)) {
         game->gameOverFlag = true;
+        PlaySound(game->fxGameOver);
+      }
 
       game->timeSinceLastMovement = 0;
     }
 
     if (Vector2Equals(game->snake->head->position, game->apple)) {
+      PlaySound(game->fxPickUp);
       GrowSnake(game->snake);
       game->points++;
       game->apple = GetNewApple(game->snake);
@@ -84,7 +92,7 @@ void UpdateGame(GameState *game) {
 }
 
 // TODO: Parametrize colors
-void RenderScoreboard(GameState *game) {
+void RenderScoreboard(GameData *game) {
   // HACK: fontSize must be constant
   int fontSize = HEIGHT_CARTESIAN*0.7;
   const char *text = TextFormat("%i", game->points);
@@ -93,7 +101,7 @@ void RenderScoreboard(GameState *game) {
   DrawText(text, WIDTH_CARTESIAN*0.5-(textWidth/2), HEIGHT_CARTESIAN*0.5-(fontSize/2), fontSize, GRAY);  // Main text
 }
 
-void RenderGame(GameState *game) {
+void RenderGame(GameData *game) {
     BeginDrawing();
 
     RenderScoreboard(game);
@@ -104,10 +112,9 @@ void RenderGame(GameState *game) {
     EndDrawing();
 }
 
-
 int main(void)
 {
-    GameState *game = InitializeGame();
+    GameData *game = InitializeGame();
     while (!game->gameOverFlag)   
     {
         if (WindowShouldClose()) game->gameOverFlag = true;
