@@ -25,7 +25,6 @@ typedef struct GameData {
 GameData *InitializeGame(void) {
   GameData *game = safeMalloc(sizeof *game);
 
-  Vector2 middle = {(float)WIDTH_TILES / 2, (float)HEIGHT_TILES / 2};
   InitWindow(WIDTH_CARTESIAN, HEIGHT_CARTESIAN, "Snake Game");
   InitAudioDevice();
   SetTargetFPS(FPS);
@@ -33,7 +32,7 @@ GameData *InitializeGame(void) {
   game->currentState = PLAYING;
 
   game->points = 0;
-  game->snake = CreateSnake(middle);
+  game->snake = CreateSnake(SCREEN_MIDDLE_TILES);
   game->apple = GetNewApple(game->snake);
   game->lastDirection = UP;
   game->timeSinceLastMovement = 0.0f;
@@ -49,9 +48,7 @@ void ResetGame(GameData *game) {
 
   // HACK: not particurarly efficient
   FreeSnake(game->snake);
-
-  Vector2 middle = {(float)WIDTH_TILES / 2, (float)HEIGHT_TILES / 2};
-  game->snake = CreateSnake(middle);
+  game->snake = CreateSnake(SCREEN_MIDDLE_TILES);
 
   game->apple = GetNewApple(game->snake);
   game->currentState = PLAYING;

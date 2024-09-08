@@ -21,3 +21,6 @@ const int WIDTH_CARTESIAN = WIDTH_TILES * TILE_SIZE;
 const int HEIGHT_CARTESIAN = HEIGHT_TILES * TILE_SIZE;
 
 const float TICK_DELAY = 0.1f;
+
+const Vector2 SCREEN_MIDDLE_TILES = {(float)(WIDTH_TILES / 2) - 1,
+                                     (float)(HEIGHT_TILES / 2) - 1};

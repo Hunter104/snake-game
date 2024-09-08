@@ -2,6 +2,7 @@
 #include <raylib.h>
 
 typedef enum Directions { UP = 0, DOWN, LEFT, RIGHT, INVALID } Directions;
+extern const Vector2 SCREEN_MIDDLE_TILES;
 extern const Vector2 DIRECTIONS_MAP[4];
 extern const int NO_KEY_PRESSED;
 extern const int FPS;
