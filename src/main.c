@@ -124,11 +124,21 @@ void RenderScoreboard(GameData *game) {
   DrawText(text, WIDTH_CARTESIAN*0.5-(textWidth/2) + 5, HEIGHT_CARTESIAN*0.5-(fontSize/2) + 5, fontSize, Fade(DARKGRAY, 0.5f)); // Shadow
   DrawText(text, WIDTH_CARTESIAN*0.5-(textWidth/2), HEIGHT_CARTESIAN*0.5-(fontSize/2), fontSize, GRAY);  // Main text
 }
+void RenderGridlines(int cellSize, Color color) {
+  for (int x = 0; x <= WIDTH_CARTESIAN; x += cellSize) 
+    DrawLine(x, 0, x, HEIGHT_CARTESIAN, color);
+
+  for (int y = 0; y <= HEIGHT_CARTESIAN; y += cellSize) 
+    DrawLine(0, y, WIDTH_CARTESIAN, y, color);
+}
 
 void RenderGame(GameData *game) {
     BeginDrawing();
 
     RenderScoreboard(game);
+
+    // NOTE: Gridlines may not look that good
+    RenderGridlines(TILE_SIZE, Fade(GREEN, 0.1f));
     RenderApple(game->apple);
     RenderSnake(game->snake);
 
