@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CFLAGS = -Iinclude -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wcast-align -Wstrict-prototypes -Winit-self -O2
 
 LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11

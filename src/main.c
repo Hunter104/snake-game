@@ -1,5 +1,6 @@
 #include "apple.h"
 #include "constants.h"
+#include "label.h"
 #include "memory_utils.h"
 #include "snake.h"
 #include <raylib.h>
@@ -20,6 +21,13 @@ typedef struct GameData {
 
   Sound fxPickUp;
   Sound fxGameOver;
+
+  // NOTE: these heap allocations may be unnecessary
+  Label *gameOverTitle;
+  Label *gameOverSubtitle;
+
+  Label *pointsCounter;
+  Label *pointsCounterShadow;
 } GameData;
 
 GameData *InitializeGame(void) {
@@ -40,6 +48,25 @@ GameData *InitializeGame(void) {
   game->fxPickUp = LoadSound("assets/pick-up.ogg");
   game->fxGameOver = LoadSound("assets/game-over.ogg");
 
+  // Game over screen
+  Vector2 gameOverPosition = {WIDTH_CARTESIAN / 2, HEIGHT_CARTESIAN * 0.25};
+  game->gameOverTitle =
+      CreateLabel("Game Over", gameOverPosition, 50, GRAY, true, true);
+
+  Vector2 subtitlePosition = {WIDTH_CARTESIAN / 2, HEIGHT_CARTESIAN * 0.35};
+  game->gameOverSubtitle = CreateLabel("Press enter to try again!",
+                                       subtitlePosition, 40, GRAY, true, true);
+
+  // Points scoreboard
+  int fontSize = HEIGHT_CARTESIAN * 0.7;
+
+  Vector2 pointsCounterPosition = {WIDTH_CARTESIAN / 2, HEIGHT_CARTESIAN / 2};
+  game->pointsCounter = CreateLabel("0", pointsCounterPosition, fontSize,
+                                    Fade(GRAY, 0.5f), true, true);
+
+  game->pointsCounterShadow =
+      CreateLabel("0", Vector2SubtractValue(pointsCounterPosition, 5), fontSize,
+                  Fade(GRAY, 0.5f), true, true);
   return game;
 }
 
@@ -55,6 +82,10 @@ void ResetGame(GameData *game) {
 }
 
 void EndGame(GameData *game) {
+  FreeLabel(game->pointsCounter);
+  FreeLabel(game->pointsCounterShadow);
+  FreeLabel(game->gameOverTitle);
+  FreeLabel(game->gameOverSubtitle);
   FreeSnake(game->snake);
   free(game);
 }
@@ -111,19 +142,14 @@ void UpdateGame(GameData *game) {
   }
 }
 
-// TODO: Parametrize colors
 void RenderScoreboard(GameData *game) {
-  // HACK: fontSize must be constant
   // TODO: Add a way to make font size get smaller the larger the number gets
-  int fontSize = HEIGHT_CARTESIAN * 0.7;
-  const char *text = TextFormat("%i", game->points);
-  float textWidth = MeasureText(text, fontSize);
-  DrawText(text, WIDTH_CARTESIAN * 0.5 - (textWidth / 2) + 5,
-           HEIGHT_CARTESIAN * 0.5 - (fontSize / 2) + 5, fontSize,
-           Fade(DARKGRAY, 0.5f)); // Shadow
-  DrawText(text, WIDTH_CARTESIAN * 0.5 - (textWidth / 2),
-           HEIGHT_CARTESIAN * 0.5 - (fontSize / 2), fontSize,
-           Fade(GRAY, 0.5f)); // Main text
+  const char *points = TextFormat("%i", game->points);
+  SetLabelText(game->pointsCounter, points);
+  SetLabelText(game->pointsCounterShadow, points);
+
+  RenderLabel(game->pointsCounter);
+  RenderLabel(game->pointsCounterShadow);
 }
 void RenderGridlines(int cellSize, Color color) {
   for (int x = 0; x <= WIDTH_CARTESIAN; x += cellSize)
@@ -157,20 +183,8 @@ void HandleGameOverInput(GameData *game) {
 void RenderGameOverScreen(GameData *game) {
   BeginDrawing();
 
-  // TODO: make gui wrapper
-  int titleSize = 50;
-  const char *title = "Game Over";
-  float titleWidth = MeasureText(title, titleSize);
-
-  int subtitleSize = 40;
-  const char *subtitle = "Press enter to try again!";
-  float subtitleWidth = MeasureText(subtitle, subtitleSize);
-
-  // TODO: Update nvim sorround confing
-  DrawText(title, (WIDTH_CARTESIAN - titleWidth) / 2,
-           HEIGHT_CARTESIAN * 0.25 - titleSize / 2, titleSize, GRAY);
-  DrawText(subtitle, (WIDTH_CARTESIAN - subtitleWidth) / 2,
-           HEIGHT_CARTESIAN * 0.35 - subtitleSize / 2, subtitleSize, GRAY);
+  RenderLabel(game->gameOverTitle);
+  RenderLabel(game->gameOverSubtitle);
 
   ClearBackground(BLACK);
   EndDrawing();
