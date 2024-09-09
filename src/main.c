@@ -139,7 +139,7 @@ void RenderGame(GameData *game) {
   RenderScoreboard(game);
 
   // NOTE: Gridlines may not look that good
-  RenderGridlines(TILE_SIZE, Fade(GREEN, 0.1f));
+  RenderGridlines(TILE_SIZE, Fade(GRAY, 0.2f));
   RenderApple(game->apple);
   RenderSnake(game->snake);
 
@@ -176,6 +176,7 @@ void RenderGameOverScreen(GameData *game) {
   EndDrawing();
 }
 
+# 000
 int main(void) {
   GameData *game = InitializeGame();
   while (!WindowShouldClose()) {
