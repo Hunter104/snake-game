@@ -20,8 +20,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
-# TODO: make assets path a variable
-file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 FILE(GLOB SRCS ${PROJECT_SOURCE_DIR}/src/*.c)
 add_executable(snake_game ${SRCS})
 
@@ -32,4 +30,10 @@ if (APPLE)
     target_link_libraries(snake_game "-framework IOKit")
     target_link_libraries(snake_game "-framework Cocoa")
     target_link_libraries(snake_game "-framework OpenGL")
+endif()
+
+if (CMAKE_BUILD_TYPE STREQUAL "RELEASE")
+  target_compile_definitions(snake_game PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/")
+else()
+  target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="./assets")
 endif()

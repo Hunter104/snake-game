@@ -45,8 +45,8 @@ GameData *InitializeGame(void) {
   game->lastDirection = UP;
   game->timeSinceLastMovement = 0.0f;
 
-  game->fxPickUp = LoadSound("assets/pick-up.ogg");
-  game->fxGameOver = LoadSound("assets/game-over.ogg");
+  game->fxPickUp = LoadSound(ASSETS_PATH "pick-up.ogg");
+  game->fxGameOver = LoadSound(ASSETS_PATH "game-over.ogg");
 
   // Game over screen
   Vector2 gameOverPosition = {WIDTH_CARTESIAN / 2, HEIGHT_CARTESIAN * 0.25};
