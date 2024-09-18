@@ -1,13 +1,26 @@
 cmake_minimum_required(VERSION 3.10)
 project(snake_game VERSION 1.0)
 
-find_package(raylib 5.0 REQUIRED)
+include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) 
+set(BUILD_GAMES    OFF CACHE BOOL "" FORCE)
+
+FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
+)
+
+FetchContent_MakeAvailable(raylib)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
+# TODO: make assets path a variable
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 FILE(GLOB SRCS ${PROJECT_SOURCE_DIR}/src/*.c)
 add_executable(snake_game ${SRCS})
