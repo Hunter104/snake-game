@@ -2,18 +2,18 @@
 #include <raylib.h>
 
 typedef enum Directions { UP = 0, DOWN, LEFT, RIGHT, INVALID } Directions;
+#define FPS 60
+#define NO_KEY_PRESSED 0
+
+#define TILE_PADDING 0
+#define TILE_SIZE 40
+#define HEIGHT_TILES 20
+#define WIDTH_TILES 20
+
+#define WIDTH_CARTESIAN (WIDTH_TILES * TILE_SIZE)
+#define HEIGHT_CARTESIAN (HEIGHT_TILES * TILE_SIZE)
+
+#define TICK_DELAY 0.1f
+
 extern const Vector2 SCREEN_MIDDLE_TILES;
 extern const Vector2 DIRECTIONS_MAP[4];
-extern const int NO_KEY_PRESSED;
-extern const int FPS;
-extern const Vector2 UP_VECTOR;
-extern const Vector2 DOWN_VECTOR;
-extern const Vector2 LEFT_VECTOR;
-extern const Vector2 RIGHT_VECTOR;
-extern const int TILE_SIZE;
-extern const int HEIGHT_TILES;
-extern const int WIDTH_TILES;
-extern const float WIDTH_CARTESIAN;
-extern const float HEIGHT_CARTESIAN;
-extern const float TICK_DELAY;
-extern const int TILE_PADDING;
