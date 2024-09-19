@@ -58,7 +58,7 @@ GameData *InitializeGame(void) {
                                        subtitlePosition, 40, GRAY, true, true);
 
   // Points scoreboard
-  int fontSize = HEIGHT_CARTESIAN * 0.7;
+  int fontSize = (int) (HEIGHT_CARTESIAN * 0.7);
 
   Vector2 pointsCounterPosition = {WIDTH_CARTESIAN / 2, HEIGHT_CARTESIAN / 2};
   game->pointsCounter = CreateLabel("0", pointsCounterPosition, fontSize,

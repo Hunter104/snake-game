@@ -13,7 +13,7 @@ void *safeMalloc(size_t n) {
 void *safeRealloc(void *ptr, unsigned long size) {
   void *p = realloc(ptr, size);
   if (p == NULL) {
-    fprintf(stderr, "Fatal: faile to allocate %zu bytes.\n", size);
+    fprintf(stderr, "Fatal: faile to allocate %lu bytes.\n", size);
     abort();
   }
   return p;

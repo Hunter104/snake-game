@@ -8,7 +8,7 @@
 Label *CreateLabel(const char *text, Vector2 position, int fontSize,
                    Color color, bool centerX, bool centerY) {
   Label *label = safeMalloc(sizeof *label);
-  label->text = strdup(text);
+  label->text = _strdup(text);
   label->fontSize = fontSize;
   label->position = position;
   label->color = color;
@@ -45,5 +45,5 @@ void RenderLabel(Label *label) {
   float positionY = !label->centerY
                         ? label->position.y
                         : label->position.y - (float)label->fontSize / 2;
-  DrawText(label->text, positionX, positionY, label->fontSize, label->color);
+  DrawText(label->text, (int) positionX, (int) positionY, label->fontSize, label->color);
 }

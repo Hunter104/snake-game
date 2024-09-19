@@ -6,7 +6,7 @@ typedef struct Label {
   int fontSize;
   Vector2 position;
   Color color;
-  float width;
+  int width;
 
   bool centerX;
   bool centerY;
