@@ -190,7 +190,7 @@ void RenderGameOverScreen(GameData *game) {
   EndDrawing();
 }
 
-# 000
+
 int main(void) {
   GameData *game = InitializeGame();
   while (!WindowShouldClose()) {
